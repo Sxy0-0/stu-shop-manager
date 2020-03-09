@@ -48,18 +48,34 @@ class List extends Component {
                     )
                 }
             ],
-            dataSource:[]
+            dataSource:[],
+            total:0,
+            current:1
         }
     }
 
    componentDidMount() {
-       const url = `http://localhost:8085/getList`
+       const url = `http://localhost:8085/getPage?current=1&size=2`
        axios.get(url,{
            headers: {'Access-Control-Allow-Origin': '*'}
        }).then( response => {
-           const dataSource = response.data;
+           const dataSource = response.data.records;
            console.log(response);
-           this.setState(this.state.dataSource = dataSource);
+           this.setState({dataSource : dataSource,total:response.data.total});
+           console.log(dataSource);
+
+       })
+       console.log(this.props);
+   }
+
+  pageChange = (current,size) => {
+       const url = `http://localhost:8085/getPage?current=${current}&size=${size}`
+       axios.get(url,{
+           headers: {'Access-Control-Allow-Origin': '*'}
+       }).then( response => {
+           const dataSource = response.data.records;
+           console.log(response);
+           this.setState({dataSource : dataSource,total:response.data.total});
            console.log(dataSource);
 
        })
@@ -78,7 +94,8 @@ class List extends Component {
                     新增
                 </Button>
             }>
-                <Table columns={this.state.columns} bordered dataSource={this.state.dataSource}/>
+                <Table columns={this.state.columns} bordered dataSource={this.state.dataSource}
+                       pagination={{total:this.state.total,pageSize:2,onChange:this.pageChange}}/>
             </Card>
         );
     }

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb} from 'antd';
 import {RadiusUprightOutlined} from '@ant-design/icons';
 // import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import {adminRoutes} from '../../routes';
 import logo from './logo192.png';
 import {withRouter} from 'react-router-dom';
+import Icon from "antd/es/icon";
 
 const { Header, Content, Sider } = Layout;
 const routes = adminRoutes.filter(route => route.isShow)
@@ -38,7 +39,9 @@ class Index extends Component {
                         >
                             {routes.map(route => {
                                 return (
-                                    <Menu.Item key = {route.path} onClick={p => this.props.history.push(p.key)} icon={route.icon}>
+                                    <Menu.Item key = {route.path} onClick={p => this.props.history.push(p.key)} >
+                                        <RadiusUprightOutlined/>
+                                        <Icon />
                                         {route.title}</Menu.Item>
                                 )
                             })}

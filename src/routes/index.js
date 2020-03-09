@@ -4,7 +4,8 @@ import Index from "../pages/admin/dashboard/Index";
 import Edit from "../pages/admin/products/Edit";
 import PageNotFound from "../pages/PageNotFound";
 import Test from "../Test";
-import { QuestionOutlined, UserOutlined } from '@ant-design/icons';
+import { QuestionOutlined} from '@ant-design/icons';
+import React from "react";
 
 export const mainRoutes = [{
     path:'/login',
@@ -25,7 +26,7 @@ export const adminRoutes = [{
     isShow:true,
     exact: true,
     title:'商品管理',
-    icon:'{UserOutlined}'
+    icon:<QuestionOutlined />
 },{
     path: '/admin',
     component: List,
