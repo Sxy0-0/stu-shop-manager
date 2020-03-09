@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
-import {Card, Table, Button, Popconfirm} from 'antd'
+import {Card, Table, Button, Popconfirm, Modal, Form, Input, Radio, InputNumber} from 'antd'
 import axios from 'axios';
+import MyModal from "../../../components/Frame/myModal";
 
 class List extends Component {
+    formRef = React.createRef();
+
     constructor(props){
         super(props);
+
         this.state = {
+            modalAddInfoVisible:false,
+            name:'',
+            price:0,
             data:null,
             columns : [
                 {
@@ -44,15 +51,45 @@ class List extends Component {
 
                             <Button type="danger" size="small">删除</Button>
                            </Popconfirm>
+                           <Button type="normal" size="small" onClick={ () => {
+                               this.setState({modalAddInfoVisible:true});
+                               const url1 = `http://localhost:8085/getById?id=${record.id}`
+                               axios.get(url1).then(res =>{
+                                   console.log('res：',res);
+                                   console.log('res data：',res.data);
+                                   this.setState({name:res.data.name,price:res.data.price});
+                                   // this.formRef.current.setFieldsValue({
+                                   //     name:res.data.name,price:res.data.price
+                                   // });
+                                   // this.formRef.current.resetFields();
+                                   console.log("111111111111111",this.state)
+                               })
+                           }}>测试</Button>
+                           <MyModal modalAddInfoVisible = {this.state.modalAddInfoVisible} changeModal = {this.changeModal}
+                            id = {record.id} name = {this.state.name} price = {this.state.price} formRef = {this.formRef}
+                           />
                         </div>
                     )
                 }
             ],
             dataSource:[],
             total:0,
-            current:1
+            current:1,
+            id:0,
         }
+
+
+
     }
+
+    handleClick = () => {
+        this.setState({modalAddInfoVisible:true})
+    }
+
+    changeModal = () => {
+        this.setState({modalAddInfoVisible:false})
+    }
+
 
    componentDidMount() {
        const url = `http://localhost:8085/getPage?current=1&size=2`
@@ -65,7 +102,8 @@ class List extends Component {
            console.log(dataSource);
 
        })
-       console.log(this.props);
+       console.log("00000000000000000",this.props);
+
    }
 
   pageChange = (current,size) => {

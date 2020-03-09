@@ -11,7 +11,6 @@ class Edit extends Component {
         this.state = {
             name:'',
             price:0,
-            formRef : React.createRef()
     }
         if (this.props.match.params.id){
             const url = `http://localhost:8085/getById?id=${this.props.match.params.id}`
