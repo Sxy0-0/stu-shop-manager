@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
+import {RadiusUprightOutlined} from '@ant-design/icons';
 // import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import {adminRoutes} from '../../routes';
-import logo from './logo.png';
+import logo from './logo192.png';
+import {withRouter} from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
 const routes = adminRoutes.filter(route => route.isShow)
@@ -36,7 +38,8 @@ class Index extends Component {
                         >
                             {routes.map(route => {
                                 return (
-                                    <Menu.Item key = {route.path}>{route.title}</Menu.Item>
+                                    <Menu.Item key = {route.path} onClick={p => this.props.history.push(p.key)} icon={route.icon}>
+                                        {route.title}</Menu.Item>
                                 )
                             })}
                         </Menu>
@@ -56,7 +59,7 @@ class Index extends Component {
                                 backgroundColor:"white"
                             }}
                         >
-                            {this.props.children},1
+                            {this.props.children}
                         </Content>
                     </Layout>
                 </Layout>
@@ -65,4 +68,4 @@ class Index extends Component {
     }
 }
 
-export default Index;
+export default withRouter(Index);
